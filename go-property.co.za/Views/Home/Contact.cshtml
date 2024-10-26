@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+
+<style>
+    #footers {
+        position: fixed;
+        bottom: 5px;
+        width: 100%;
+        left: 0px;
+    }
+     
+    #loaderMessage {
+        display: none;
+    }
+    .col-sm-6{
+        padding-left: 0px;
+    }
+</style>
+<div class="goPropLogo">
+    <img src="~/images/GoProplogo.png" alt="Logo" />
+</div>
+<div class="container">
+    <br />
+    <h1>CONTACT US</h1>
+    <br /><br />
+    <div class="row">        
+        <div class="col-sm-6">
+            <form>
+                <div class="form-group">
+                    <p>Full Name:</p>
+                    <input type="text" class="form-control form-control-sm" name="name" id="name" required />
+                </div>
+                <div class="form-group">
+                    <p>Email:</p>
+                    <input type="email" class="form-control form-control-sm" name="email" id="email" required />
+                </div>
+                <div class="form-group">
+                    <p>Phone Number:</p>
+                    <input type="text" class="form-control form-control-sm" name="phone" id="phone" />
+                </div>
+                <div class="form-group">
+                    <p>Message:</p>
+                    <textarea type="text" class="form-control form-control-sm" rows="3" name="message" id="message" required></textarea>
+                </div>
+
+                <br /><br />
+                <button type="button" class="btn btn-sm btn-outline-dark text-light" style="border-width: 3px; border-color: white"  onclick="sendMsg()">
+                    SUBMIT              
+                </button>
+            </form>
+            <br />
+            <div class="spinner-border text-light" id="loaderMessage" role="status">
+                <span class="visually-hidden"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function sendMsg() {
+        document.getElementById('loaderMessage').style.display = 'block';
+
+        $.ajax({
+            url: "@Url.Action("ContactUs", "Home")",
+            type: 'POST',
+            data: {
+                name: $("#name").val(),
+                email: $("#email").val(),
+                phone: $("#phone").val(),
+                message: $("#message").val()
+            },
+            success: (data) => {
+                let msg = JSON.parse(data);
+
+                if (msg.message == "Message sent") {
+                    document.getElementById('loaderMessage').style.display = 'none';
+                    alert(msg.message);
+                    window.location.reload();
+                } else {
+                    document.getElementById('loaderMessage').style.display = 'none';
+                    console.log(msg.message);
+                    alert(msg.message);                 
+                    window.location.reload();
+                }
+            },
+            error: () => {
+                alert("Error! Service failed, please contact support via email; admin@go-property.co.za")
+            }
+        });
+    }
+</script>

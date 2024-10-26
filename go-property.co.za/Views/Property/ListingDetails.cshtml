@@ -1,0 +1,155 @@
+﻿@model go_property.co.za.Models.ListingsVM
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Listing Details";
+
+    var propertyList = Model.PropListings[0];
+    var listingType = Model.Listing_Type.Where(l => l.Listing_Type_Id == propertyList.Listing_Type_Id).FirstOrDefault();
+}
+
+<br />
+<div class="goPropLogo">
+    <img src="~/images/GoProplogo.png" alt="Logo" />
+</div>
+<div class="container">
+    <div class="row">
+        @if (Model.PropListings.Count < 1)
+        {
+            <h4><i class="fa-solid fa-clock-rotate-left"></i> Property Details not found!</h4>
+        }
+        @foreach (var listing in Model.PropListings)
+        {
+            <div class="col-sm-6 p-0">
+                <div class="text-center p-0" id="imageDiv">
+                    <div class="product-viewer p-0">
+                        <div class="main-image p-0">
+                            @{
+                                var listingId = listing.Listing_Id; // Assuming you have the Listing_Id available
+                                var imagePath = $"~/images/Listing_{listingId}/mainpropimg2.jpg";
+                                var serverPath = Server.MapPath(imagePath); // Convert the virtual path to a physical path
+                                var fileExists = System.IO.File.Exists(serverPath);
+                                var imageFolderPath = $"~/images/Listing_{listingId}/"; // Virtual path to the images folder
+                                var serverFolderPath = Server.MapPath(imageFolderPath); // Convert to physical server path
+                                var imageFiles = new List<string>(); // List to hold image paths
+
+                                // Check if the directory exists and fetch all images (.jpg, .png, .jpeg, .gif)
+                                if (System.IO.Directory.Exists(serverFolderPath))
+                                {
+                                    var supportedExtensions = new[] { "*.jpg", "*.jpeg", "*.png", "*.gif" };
+                                    foreach (var extension in supportedExtensions)
+                                    {
+                                        // Get all image files with the supported extensions
+                                        var files = System.IO.Directory.GetFiles(serverFolderPath, extension);
+                                        foreach (var file in files)
+                                        {
+                                            // Convert to a relative path for the <img> tag
+                                            var relativePath = Url.Content(imageFolderPath + System.IO.Path.GetFileName(file));
+                                            imageFiles.Add(relativePath);
+                                        }
+                                    }
+                                }
+                            }
+
+                            @if (fileExists)
+                            {
+                                <img src="~/images/Listing_@listing.Listing_Id/mainpropimg2.jpg" alt="Main Product Image" width="100px">
+                            }
+                            else
+                            {
+                                <img src="~/images/image_placeholder.png" alt="Main 1" width="100px">
+                            }
+                        </div>
+
+                        <div class="thumbnail-grid">
+                            @if (imageFiles.Any()) // If any images are found, display them in the grid
+                            {
+                                foreach (var imgPath in imageFiles)
+                                {
+                                    // Check if the current imgPath is "mainpropimage" and skip it if true
+                                    if (imgPath.EndsWith("mainpropimg.jpg", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        continue; // Skip this iteration
+                                    }
+
+                                    <div class="thumbnail">
+                                        <img src="@imgPath" alt="Property Image" />
+                                    </div>
+                                }
+                            }
+
+                            else // If no images are found, show placeholders
+                            {
+                                <div class="thumbnail">
+                                    <img src="~/images/image_placeholder.png" alt="Thumbnail 1" />
+                                </div>
+                                <div class="thumbnail">
+                                    <img src="~/images/image_placeholder.png" alt="Thumbnail 2" />
+                                </div>
+                                <div class="thumbnail">
+                                    <img src="~/images/image_placeholder.png" alt="Thumbnail 3" />
+                                </div>
+                                <div class="thumbnail">
+                                    <img src="~/images/image_placeholder.png" alt="Thumbnail 4" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h4>@listing.Town_City.ToUpper()</h4>
+                <br />
+                <p>
+ 
+                        @foreach (var prop_type in Model.Property_Type.Where(pt => pt.Property_Type_Id == listing.Property_Type_Id))
+                        {
+                            @prop_type.Name.ToUpper()
+                        }
+                        - @listing.Property_Name.ToUpper()<br />
+
+                    @listing.Suburb, @listing.Address_L1
+                            </p>
+                <br />
+                <p>
+                    @listing.Description
+                </p>
+
+                <p style=" padding-bottom:0px;">
+                <p>Features & Amenities:</p>
+                @{
+                    // Example string retrieved from the database
+                    var featuresString = Model.PropListings[0].Features; // Assuming this is the string
+                    var featuresList = JsonConvert.DeserializeObject<List<string>>(featuresString); // Deserialize into a list
+                }
+
+                <div id="features">
+                    <ul style="list-style-type: none; padding: 0;">
+                        @foreach (var feature in featuresList)
+                        {
+                            <li>- &nbsp;@feature</li>
+                        }
+                    </ul>
+                </div>
+
+                <p>Price: R @Math.Round(Convert.ToDouble(listing.Listing_Price))/day (including month-to-month option)</p>
+                </p>
+            </div>
+        }
+    </div>
+</div>
+<br />
+
+<!-- Modal for viewing clicked image -->
+<div id="imageModal" class="image-modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <img id="modalImage" src="" alt="Clicked Image">
+    </div>
+    <br />
+</div>
+
+<script src="~/Scripts/site.js"></script>
+
+<script type="text/javascript">
+   
+</script>

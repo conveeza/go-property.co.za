@@ -1,0 +1,51 @@
+﻿@model go_property.co.za.Models.ListingsVM
+@{
+    ViewBag.Title = "New Development";
+}
+<br />
+<div class="goPropLogo">
+    <img src="~/images/GoProplogo.png" alt="Logo" />
+</div>
+<div class="container">
+    <h1>NEW DEVELOPMENT</h1>
+    <br /><br />
+    @if (Model.PropListings.Count < 1)
+    {
+        <h5 style="text-transform: uppercase;"> Listings *Coming Soon*</h5>
+    }
+    <br /><br />
+    <div class="row" style="column-gap: 10px; ">
+        @foreach (var listing in Model.PropListings)
+        {
+            var listingId = listing.Listing_Id; // Assuming you have the Listing_Id available
+            var imagePath = $"~/images/Listing_{listingId}/mainpropimg.jpg";
+            var serverPath = Server.MapPath(imagePath); // Convert the virtual path to a physical path
+            var fileExists = System.IO.File.Exists(serverPath);
+
+            <div class="card bg-dark" style="width:350px">
+                <div class="card-body">
+
+                    @if (fileExists)
+                    {
+                        <img src="~/images/Listing_@listing.Listing_Id/mainpropimg.jpg" alt="PROP_IMG" width="300px">
+                    }
+                    else
+                    {
+                        <img class="text-center" alt="image" src="~/images/image_placeholder.png" width="300px" />
+                    }
+                    <br /><br />
+                    <p style="font-size: 16px; padding-bottom: 0px; text-transform: unset;">
+                        R @(Math.Round(Convert.ToDouble(listing.Listing_Price)))/day or monthly<br />
+                        @listing.Suburb, @listing.Address_L1
+                        <br />
+                        @listing.Bedroom_Num beds |
+                        @listing.Bathroom_Num baths
+                        <br />
+                        <a href="@Url.Action("ListingDetails", "Property", new { propId = listing.Listing_Id })" class="btn btn-sm btn-secondary float-right btn-fonts-sc">Details </a>
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

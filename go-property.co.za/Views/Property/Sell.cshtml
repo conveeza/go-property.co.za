@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Sell";
+}
+<style>
+    .col-sm-4{
+        padding-left: 0px;
+    }
+    #loaderMessage {
+        display: none;
+    }
+</style>
+<br />
+<div class="goPropLogo">
+    <img src="~/images/GoProplogo.png" alt="Logo" />
+</div>
+<div class="container">
+    <h1>SELL</h1> 
+    <br /><br />
+
+        <div class="row row-cols-4">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <p>Full Name:</p>
+                    <input type="text" class="form-control form-control-sm" name="name" id="name" required />
+                </div>
+                <div class="form-group">
+                    <p>Email:</p>
+                    <input type="email" class="form-control form-control-sm" name="email" id="email" required />
+                </div>
+                <div class="form-group">
+                    <p>Phone Number:</p>
+                    <input type="text" class="form-control form-control-sm" name="phone" id="phone" required />
+                </div>
+            </div>
+            <div class="col-sm-8">
+                
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <p>Tell us about your home:</p>
+                    <textarea type="text" class="form-control form-control-sm" rows="3" name="description" id="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <p>Bedrooms:</p>
+                    <input type="number" min="1" class="form-control form-control-sm" name="bedrooms" id="bedrooms" required />
+                </div>
+                <div class="form-group">
+                    <p>Bathrooms:</p>
+                    <input type="number" min="1" class="form-control form-control-sm" name="bathrooms" id="bathrooms" required />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <p style="line-height: 20px">Address:</p>
+                    <input type="text" class="form-control form-control-sm" name="address" id="address" placeholder="Line 1" required />
+                    <input type="text" class="form-control form-control-sm" name="address2" id="address2" placeholder="Line 2" required />
+                    <input type="text" class="form-control form-control-sm" name="suburb" id="suburb" placeholder="Suburb" required />
+                    <input type="text" class="form-control form-control-sm" name="town" id="town" placeholder="Town / City" required />
+                    <select type="text" class="form-control form-control-sm" name="province" id="province" placeholder="Select Province" required>
+                        <option value="select">Select Province</option>
+                        <option value="Gauteng">Gauteng</option>
+                        <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                        <option value="Western Cape">Western Cape</option>
+                        <option value="Eastern Cape">Eastern Cape</option>
+                        <option value="Free State"> Free State</option>
+                        <option value="Northern Cape">Northern Cape</option>
+                        <option value="Limpopo">Limpopo</option>
+                        <option value="Mpumalanga">Mpumalanga</option>
+                        <option value="North West">North West</option>
+                    </select>
+                    <input type="text" class="form-control form-control-sm" name="zip" id="zip" placeholder="Zip Code" required />
+                </div>
+                <div class="form-group">
+                    <br />
+                    <button type="button" class="btn btn-sm btn-outline-dark text-light" style="border-width: 3px; border-color: white" onclick="submitForm()">
+                        SUBMIT
+                    </button>
+                </div>
+                <div class="spinner-border text-light" id="loaderMessage" role="status">
+                    <span class="visually-hidden"></span>
+                </div>
+            </div>
+        </div>
+
+</div>
+<br />
+
+<script type="text/javascript">
+    function submitForm() {
+        document.getElementById('loaderMessage').style.display = 'block';
+
+        $.ajax({
+            url: "@Url.Action("sendSellPropEmail", "Property")",
+            type: "POST",
+            data: {
+                cusName: $("#name").val(),
+                cusEmail: $("#email").val(),
+                cusPhone: $("#phone").val(),
+                propDesc: $("#description").val(),
+                propBeds: $("#bedrooms").val(),
+                propBaths: $("#bathrooms").val(),
+                propAddress: $("#address").val() + ", " + $("#address2").val() + ", " + $("#suburb").val() + ", " + $("#town").val() + ", " + $("#province").val() + ", " + $("#zip").val()
+            },
+            success: (data) => {
+                let msg = JSON.parse(data);
+
+                if (msg.message == "Message sent. We will get back to you soon.") {
+                    document.getElementById('loaderMessage').style.display = 'none';
+                    alert(msg.message);
+                    window.location.reload();
+                } else {
+                    document.getElementById('loaderMessage').style.display = 'none';
+                    alert(msg.message);
+                    window.location.reload();
+                }
+            },
+            error: () => {
+                alert("Error! Service failed, please contact support via email; admin@go-property.co.za");
+            }
+
+        });
+    }
+</script>

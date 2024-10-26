@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="goproperty_dbEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Listing">
+          <Key>
+            <PropertyRef Name="Listing_Id" />
+          </Key>
+          <Property Name="Listing_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Listing_Type_Id" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Bedroom_Num" Type="int" />
+          <Property Name="Bathroom_Num" Type="int" />
+          <Property Name="Address_L1" Type="varchar" MaxLength="255" />
+          <Property Name="Address_L2" Type="varchar" MaxLength="255" />
+          <Property Name="Suburb" Type="varchar" MaxLength="255" />
+          <Property Name="Town_City" Type="varchar" MaxLength="255" />
+          <Property Name="Zip_Code" Type="varchar" MaxLength="8" />
+          <Property Name="Features" Type="varchar(max)" />
+          <Property Name="Listing_Price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Property_Type_Id" Type="int" />
+          <Property Name="Property_Name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Listing_Type">
+          <Key>
+            <PropertyRef Name="Listing_Type_Id" />
+          </Key>
+          <Property Name="Listing_Type_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Property_Type">
+          <Key>
+            <PropertyRef Name="Property_Type_Id" />
+          </Key>
+          <Property Name="Property_Type_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Contact_Form">
+          <Key>
+            <PropertyRef Name="Form_Id" />
+          </Key>
+          <Property Name="Form_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Full_Names" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Phone" Type="varchar" MaxLength="255" />
+          <Property Name="Message" Type="varchar" MaxLength="255" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Customer_Id" />
+          </Key>
+          <Property Name="Customer_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Surname" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Phone" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Emp_Id" />
+          </Key>
+          <Property Name="Emp_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="About" Type="varchar(max)" />
+          <Property Name="Surname" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Phone" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__Listing__Listing__3E52440B">
+          <End Role="Listing_Type" Type="Self.Listing_Type" Multiplicity="1" />
+          <End Role="Listing" Type="Self.Listing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listing_Type">
+              <PropertyRef Name="Listing_Type_Id" />
+            </Principal>
+            <Dependent Role="Listing">
+              <PropertyRef Name="Listing_Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="goproperty_dbEntitiesStoreContainer">
+          <EntitySet Name="Listing" EntityType="Self.Listing" Schema="Property" store:Type="Tables" />
+          <EntitySet Name="Listing_Type" EntityType="Self.Listing_Type" Schema="Property" store:Type="Tables" />
+          <EntitySet Name="Property_Type" EntityType="Self.Property_Type" Schema="Property" store:Type="Tables" />
+          <EntitySet Name="Contact_Form" EntityType="Self.Contact_Form" Schema="Users" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="Users" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="Users" store:Type="Tables" />
+          <AssociationSet Name="FK__Listing__Listing__3E52440B" Association="Self.FK__Listing__Listing__3E52440B">
+            <End Role="Listing_Type" EntitySet="Listing_Type" />
+            <End Role="Listing" EntitySet="Listing" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="goproperty_dbEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Listing">
+          <Key>
+            <PropertyRef Name="Listing_Id" />
+          </Key>
+          <Property Name="Listing_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Listing_Type_Id" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Bedroom_Num" Type="Int32" />
+          <Property Name="Bathroom_Num" Type="Int32" />
+          <Property Name="Address_L1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address_L2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Suburb" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Town_City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Zip_Code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Features" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Listing_Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Property_Type_Id" Type="Int32" />
+          <Property Name="Property_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Listing_Type" Relationship="Self.FK__Listing__Listing__3E52440B" FromRole="Listing" ToRole="Listing_Type" />
+        </EntityType>
+        <EntityType Name="Listing_Type">
+          <Key>
+            <PropertyRef Name="Listing_Type_Id" />
+          </Key>
+          <Property Name="Listing_Type_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Listings" Relationship="Self.FK__Listing__Listing__3E52440B" FromRole="Listing_Type" ToRole="Listing" />
+        </EntityType>
+        <EntityType Name="Property_Type">
+          <Key>
+            <PropertyRef Name="Property_Type_Id" />
+          </Key>
+          <Property Name="Property_Type_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Contact_Form">
+          <Key>
+            <PropertyRef Name="Form_Id" />
+          </Key>
+          <Property Name="Form_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Full_Names" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Customer_Id" />
+          </Key>
+          <Property Name="Customer_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Surname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Emp_Id" />
+          </Key>
+          <Property Name="Emp_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Surname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__Listing__Listing__3E52440B">
+          <End Role="Listing_Type" Type="Self.Listing_Type" Multiplicity="1" />
+          <End Role="Listing" Type="Self.Listing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listing_Type">
+              <PropertyRef Name="Listing_Type_Id" />
+            </Principal>
+            <Dependent Role="Listing">
+              <PropertyRef Name="Listing_Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="goproper_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Listings" EntityType="Self.Listing" />
+          <EntitySet Name="Listing_Type" EntityType="Self.Listing_Type" />
+          <EntitySet Name="Property_Type" EntityType="Self.Property_Type" />
+          <EntitySet Name="Contact_Form" EntityType="Self.Contact_Form" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <AssociationSet Name="FK__Listing__Listing__3E52440B" Association="Self.FK__Listing__Listing__3E52440B">
+            <End Role="Listing_Type" EntitySet="Listing_Type" />
+            <End Role="Listing" EntitySet="Listings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="goproperty_dbEntitiesStoreContainer" CdmEntityContainer="goproper_dbEntities">
+          <EntitySetMapping Name="Listings">
+            <EntityTypeMapping TypeName="goproperty_dbEntities.Listing">
+              <MappingFragment StoreEntitySet="Listing">
+                <ScalarProperty Name="Listing_Id" ColumnName="Listing_Id" />
+                <ScalarProperty Name="Listing_Type_Id" ColumnName="Listing_Type_Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Bedroom_Num" ColumnName="Bedroom_Num" />
+                <ScalarProperty Name="Bathroom_Num" ColumnName="Bathroom_Num" />
+                <ScalarProperty Name="Address_L1" ColumnName="Address_L1" />
+                <ScalarProperty Name="Address_L2" ColumnName="Address_L2" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="Town_City" ColumnName="Town_City" />
+                <ScalarProperty Name="Zip_Code" ColumnName="Zip_Code" />
+                <ScalarProperty Name="Features" ColumnName="Features" />
+                <ScalarProperty Name="Listing_Price" ColumnName="Listing_Price" />
+                <ScalarProperty Name="Property_Type_Id" ColumnName="Property_Type_Id" />
+                <ScalarProperty Name="Property_Name" ColumnName="Property_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Listing_Type">
+            <EntityTypeMapping TypeName="goproperty_dbEntities.Listing_Type">
+              <MappingFragment StoreEntitySet="Listing_Type">
+                <ScalarProperty Name="Listing_Type_Id" ColumnName="Listing_Type_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Property_Type">
+            <EntityTypeMapping TypeName="goproperty_dbEntities.Property_Type">
+              <MappingFragment StoreEntitySet="Property_Type">
+                <ScalarProperty Name="Property_Type_Id" ColumnName="Property_Type_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contact_Form">
+            <EntityTypeMapping TypeName="goproperty_dbEntities.Contact_Form">
+              <MappingFragment StoreEntitySet="Contact_Form">
+                <ScalarProperty Name="Form_Id" ColumnName="Form_Id" />
+                <ScalarProperty Name="Full_Names" ColumnName="Full_Names" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="goproperty_dbEntities.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="goproperty_dbEntities.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
